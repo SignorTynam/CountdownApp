@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.*?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml" fx:controller="com.example.countdownapp.CountdownAppController">
+  <center>
+    <VBox spacing="10" alignment="CENTER">
+      <Label text="Scegli la congregazione:"/>
+      <ComboBox fx:id="congregationComboBox" prefWidth="200"/>
+      <Button fx:id="startButton" text="Inizia il countdown" onAction="#toggleCountdown"/>
+
+      <!-- Add the countdown label here -->
+      <Label fx:id="countdownLabel" text="00:00" style="-fx-font-size: 24px;"/>
+
+      <HBox spacing="10" alignment="CENTER">
+        <Button fx:id="increaseFontSizeButton" text="Aumenta dimensione font" onAction="#increaseFontSize" visible="false"/>
+        <Button fx:id="decreaseFontSizeButton" text="Diminuisci dimensione font" onAction="#decreaseFontSize" visible="false"/>
+      </HBox>
+    </VBox>
+  </center>
+</BorderPane>
