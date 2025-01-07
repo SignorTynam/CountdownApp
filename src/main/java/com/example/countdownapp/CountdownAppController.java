@@ -35,6 +35,7 @@ public class CountdownAppController {
     private boolean countdownRunning = false;
     private Stage countdownStage;
     private final List<Congregation> congregations = new ArrayList<>();
+    @FXML
     private Label countdownLabel;
 
     @FXML
@@ -112,11 +113,15 @@ public class CountdownAppController {
         countdownRunning = true;
 
         Platform.runLater(() -> {
-            countdownStage = new Stage(StageStyle.UNDECORATED);
-            countdownStage.setOnCloseRequest(event -> {
-                countdownRunning = false;
-                startButton.setText("Inizia il countdown");
-            });
+            if (countdownStage == null) {
+                countdownStage = new Stage(StageStyle.UNDECORATED);
+                countdownStage.setOnCloseRequest(event -> {
+                    countdownRunning = false;
+                    startButton.setText("Inizia il countdown");
+                    increaseFontSizeButton.setVisible(false);
+                    decreaseFontSizeButton.setVisible(false);
+                });
+            }
 
             startButton.setText("Chiudi il countdown");
 
@@ -138,9 +143,11 @@ public class CountdownAppController {
             countdownStage.setScene(new Scene(vbox));
             countdownStage.show();
 
+            // I pulsanti per cambiare la dimensione del font devono essere visibili ora
             increaseFontSizeButton.setVisible(true);
             decreaseFontSizeButton.setVisible(true);
 
+            // Il thread del countdown
             new Thread(() -> {
                 long remaining = secondsRemaining;
 
@@ -189,11 +196,6 @@ public class CountdownAppController {
                     startButton.setText("Inizia il countdown");
                 });
             }).start();
-        });
-
-        countdownStage.setOnCloseRequest(event -> {
-            increaseFontSizeButton.setVisible(false);
-            decreaseFontSizeButton.setVisible(false);
         });
     }
 
