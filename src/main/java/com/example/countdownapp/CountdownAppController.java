@@ -147,18 +147,9 @@ public class CountdownAppController {
                         String formattedTime = (hours > 0 ? String.format("%02d:", hours) : "")
                                 + String.format("%02d:%02d", minutes, seconds);
 
-                        String textColor;
-                        if (remaining <= 15) {
-                            textColor = "#A53E1E";
-                        } else if (remaining <= 60) {
-                            textColor = "#D78C2D";
-                        } else {
-                            textColor = "rgba(74, 109, 167, 1)";
-                        }
-
                         Platform.runLater(() -> {
                             countdownLabel.setText(formattedTime);
-                            countdownLabel.setStyle("-fx-text-fill: " + textColor + ";");
+                            countdownLabel.setStyle("-fx-text-fill: white;");
                         });
 
                         try {
