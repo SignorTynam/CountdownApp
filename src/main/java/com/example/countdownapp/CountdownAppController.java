@@ -5,7 +5,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -31,18 +31,18 @@ public class CountdownAppController {
     private Button increaseFontSizeButton;
     @FXML
     private Button decreaseFontSizeButton;
-
-    private volatile boolean countdownRunning = false;
-    private Stage countdownStage;
-    private final List<Congregation> congregations = new ArrayList<>();
     @FXML
     private Label countdownLabel;
     @FXML
     private Label countdownLabel2;
 
+    private volatile boolean countdownRunning = false;
+    private Stage countdownStage;
+    private final List<Congregation> congregations = new ArrayList<>();
     private static final double MAX_FONT_SIZE = 700;
     private static final double MIN_FONT_SIZE = 10;
     private double currentFontSize = 350;
+    private CountdownApp app = new CountdownApp();
 
     @FXML
     public void initialize() {
@@ -67,18 +67,13 @@ public class CountdownAppController {
                 new DayOfWeek[]{DayOfWeek.THURSDAY, DayOfWeek.SUNDAY},
                 new LocalTime[]{LocalTime.of(20, 15), LocalTime.of(10, 0)}));
 
-        // Popola il ComboBox con i nomi delle congregazioni
         for (Congregation congregation : congregations) {
             congregationComboBox.getItems().add(congregation.getName());
         }
 
-        // Trova e seleziona automaticamente la prossima adunanza
         findAndSelectNextMeeting();
     }
 
-    /**
-     * Trova la prossima adunanza tra tutte le congregazioni e seleziona quella nel ComboBox.
-     */
     private void findAndSelectNextMeeting() {
         LocalDate today = LocalDate.now();
         LocalTime now = LocalTime.now();
@@ -86,20 +81,17 @@ public class CountdownAppController {
         LocalDate nextMeetingDate = null;
         LocalTime nextMeetingTime = null;
 
-        // Cerca la prossima adunanza tra tutte le congregazioni
         for (Congregation congregation : congregations) {
             for (int i = 0; i < congregation.getMeetingDays().length; i++) {
                 DayOfWeek meetingDay = congregation.getMeetingDays()[i];
                 LocalTime meetingTime = congregation.getMeetingTimes()[i];
 
-                // Calcola la data dell'adunanza
                 LocalDate meetingDate = today.with(meetingDay);
                 if (meetingDay.getValue() < today.getDayOfWeek().getValue() || 
                     (meetingDay == today.getDayOfWeek() && meetingTime.isBefore(now))) {
                     meetingDate = meetingDate.plusWeeks(1); // Sposta alla settimana successiva
                 }
 
-                // Aggiorna se questa adunanza è prima della prossima trovata
                 if (nextMeetingDate == null || 
                     meetingDate.isBefore(nextMeetingDate) || 
                     (meetingDate.isEqual(nextMeetingDate) && meetingTime.isBefore(nextMeetingTime))) {
@@ -110,28 +102,14 @@ public class CountdownAppController {
             }
         }
 
-        // Seleziona la congregazione e mostra un messaggio se necessario
         if (nextCongregation != null) {
             congregationComboBox.setValue(nextCongregation.getName());
-            displayInfoMessage("Prossima adunanza", "La prossima adunanza è della congregazione: " +
+            app.showDialog("Prossima adunanza", "La prossima adunanza è della congregazione: " +
                     nextCongregation.getName() + " il " + nextMeetingDate.getDayOfWeek() +
-                    " alle " + nextMeetingTime);
+                    " alle " + nextMeetingTime, AlertType.INFORMATION);
         } else {
-            displayWarningMessage("Nessuna adunanza trovata", "Non ci sono adunanze programmate.");
+            app.showDialog("Nessuna adunanza trovata", "Non ci sono adunanze programmate.", AlertType.ERROR);
         }
-    }
-
-    /**
-     * Mostra un messaggio di informazione all'utente.
-     */
-    private void displayInfoMessage(String title, String message) {
-        Platform.runLater(() -> {
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle(title);
-            alert.setHeaderText(null);
-            alert.setContentText(message);
-            alert.showAndWait();
-        });
     }
 
     @FXML
@@ -147,7 +125,7 @@ public class CountdownAppController {
         Congregation selectedCongregation = getCongregationByName(selectedCongregationName);
 
         if (selectedCongregation == null) {
-            displayWarningMessage("Errore", "Seleziona una congregazione valida.");
+            app.showDialog("Errore", "Seleziona una congregazione valida.", AlertType.ERROR);
             congregationComboBox.setDisable(false);
             return;
         }
@@ -155,7 +133,7 @@ public class CountdownAppController {
         DayOfWeek currentDayOfWeek = LocalDate.now().getDayOfWeek();
 
         if (!selectedCongregation.hasMeetingToday(currentDayOfWeek)) {
-            displayWarningMessage("Nessuna adunanza oggi", "La congregazione non ha in programma un'adunanza oggi.");
+            app.showDialog("Nessuna adunanza oggi", "La congregazione non ha in programma un'adunanza oggi.", AlertType.ERROR);
             congregationComboBox.setDisable(false);
             return;
         }
@@ -163,7 +141,7 @@ public class CountdownAppController {
         LocalTime targetTime = selectedCongregation.getNextMeetingTime(currentDayOfWeek, LocalTime.now());
 
         if (targetTime == null) {
-            displayWarningMessage("Adunanza già passata", "L'orario dell'adunanza è già passato.");
+            app.showDialog("Adunanza già passata", "L'orario dell'adunanza è già passato.", AlertType.WARNING);
             congregationComboBox.setDisable(false);
             return;
         }
@@ -268,28 +246,19 @@ public class CountdownAppController {
     }
 
     @FXML
-private void increaseFontSize() {
-    if (countdownLabel != null) {
-        currentFontSize = Math.min(currentFontSize + 10, MAX_FONT_SIZE);
-        countdownLabel.setFont(new Font(currentFontSize));
+    private void increaseFontSize() {
+        if (countdownLabel != null) {
+            currentFontSize = Math.min(currentFontSize + 10, MAX_FONT_SIZE);
+            countdownLabel.setFont(new Font(currentFontSize));
+        }
     }
-}
 
-@FXML
-private void decreaseFontSize() {
-    if (countdownLabel != null) {
-        currentFontSize = Math.max(currentFontSize - 10, MIN_FONT_SIZE);
-        countdownLabel.setFont(new Font(currentFontSize));
+    @FXML
+    private void decreaseFontSize() {
+        if (countdownLabel != null) {
+            currentFontSize = Math.max(currentFontSize - 10, MIN_FONT_SIZE);
+            countdownLabel.setFont(new Font(currentFontSize));
+        }
     }
-}
 
-    private void displayWarningMessage(String title, String message) {
-        Platform.runLater(() -> {
-            Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setTitle(title);
-            alert.setHeaderText(null);
-            alert.setContentText(message);
-            alert.showAndWait();
-        });
-    }
 }

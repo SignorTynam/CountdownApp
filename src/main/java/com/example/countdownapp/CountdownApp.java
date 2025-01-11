@@ -3,6 +3,7 @@ package com.example.countdownapp;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
 import javafx.scene.Parent;
 
@@ -27,7 +28,7 @@ public class CountdownApp extends Application {
             primaryStage.show();
         } catch (IOException e) {
             e.printStackTrace();
-            showErrorDialog("Error loading the FXML file", e.getMessage());
+            showDialog("Error loading the FXML file", e.getMessage(), AlertType.ERROR);
         }
 
         primaryStage.setOnCloseRequest(_ -> {
@@ -41,9 +42,9 @@ public class CountdownApp extends Application {
         System.out.println("Application is closing...");
     }
 
-    private void showErrorDialog(String title, String message) {
+    public void showDialog(String title, String message, AlertType alertType) {
         javafx.application.Platform.runLater(() -> {
-            javafx.scene.control.Alert alert = new javafx.scene.control.Alert(javafx.scene.control.Alert.AlertType.ERROR);
+            javafx.scene.control.Alert alert = new javafx.scene.control.Alert(alertType);
             alert.setTitle(title);
             alert.setHeaderText(null);
             alert.setContentText(message);
