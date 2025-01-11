@@ -40,6 +40,7 @@ public class CountdownAppController {
 
     private static final double MAX_FONT_SIZE = 700;
     private static final double MIN_FONT_SIZE = 10;
+    private double currentFontSize = 350;
 
     @FXML
     public void initialize() {
@@ -141,35 +142,35 @@ public class CountdownAppController {
         
                 new Thread(() -> {
                     long remaining = secondsRemaining;
-        
+                
                     while (remaining >= 0 && countdownRunning) {
                         long hours = remaining / 3600;
                         long minutes = (remaining % 3600) / 60;
                         long seconds = remaining % 60;
-        
+                
                         String formattedTime = (hours > 0 ? String.format("%02d:", hours) : "")
                                 + String.format("%02d:%02d", minutes, seconds);
-        
+                
                         Platform.runLater(() -> {
                             countdownLabel.setText(formattedTime);
                             countdownLabel.setStyle("-fx-text-fill: white;");
-                            countdownLabel.setFont(new Font(350));
+                            countdownLabel.setFont(new Font(currentFontSize)); // Use the updated font size
                         });
-        
+                
                         try {
                             Thread.sleep(1000);
                         } catch (InterruptedException e) {
                             Thread.currentThread().interrupt();
                         }
-        
+                
                         remaining--;
                     }
-        
+                
                     Platform.runLater(() -> {
                         countdownLabel.setText("00:00");
                         stopCountdown();
                     });
-                }).start();
+                }).start();                
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -195,22 +196,20 @@ public class CountdownAppController {
     }
 
     @FXML
-    private void increaseFontSize() {
-        if (countdownLabel != null) {
-            Font currentFont = countdownLabel.getFont();
-            double newSize = Math.min(currentFont.getSize() + 10, MAX_FONT_SIZE);
-            countdownLabel.setFont(new Font(newSize));
-        }
+private void increaseFontSize() {
+    if (countdownLabel != null) {
+        currentFontSize = Math.min(currentFontSize + 10, MAX_FONT_SIZE);
+        countdownLabel.setFont(new Font(currentFontSize));
     }
+}
 
-    @FXML
-    private void decreaseFontSize() {
-        if (countdownLabel != null) {
-            Font currentFont = countdownLabel.getFont();
-            double newSize = Math.max(currentFont.getSize() - 10, MIN_FONT_SIZE);
-            countdownLabel.setFont(new Font(newSize));
-        }
+@FXML
+private void decreaseFontSize() {
+    if (countdownLabel != null) {
+        currentFontSize = Math.max(currentFontSize - 10, MIN_FONT_SIZE);
+        countdownLabel.setFont(new Font(currentFontSize));
     }
+}
 
     private void displayWarningMessage(String title, String message) {
         Platform.runLater(() -> {
