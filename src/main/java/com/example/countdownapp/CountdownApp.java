@@ -29,6 +29,11 @@ public class CountdownApp extends Application {
             e.printStackTrace();
             showErrorDialog("Error loading the FXML file", e.getMessage());
         }
+
+        primaryStage.setOnCloseRequest(_ -> {
+            System.exit(0);
+        });
+
     }
 
     @Override
