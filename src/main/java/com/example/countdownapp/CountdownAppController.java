@@ -2,7 +2,7 @@ package com.example.countdownapp;
 
 import javafx.application.Platform;
 import javafx.fxml.FXML;
-import javafx.geometry.Pos;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -108,75 +108,76 @@ public class CountdownAppController {
         countdownRunning = true;
 
         Platform.runLater(() -> {
-            if (countdownStage == null) {
-                countdownStage = new Stage(StageStyle.UNDECORATED);
-                countdownStage.setOnCloseRequest(_ -> stopCountdown());
-            }
+            try {
+                if (countdownStage == null) {
+                    countdownStage = new Stage(StageStyle.UNDECORATED);
+                    countdownStage.setOnCloseRequest(_ -> stopCountdown());
+                }
 
-            startButton.setText("Chiudi il countdown");
+                startButton.setText("Chiudi il countdown");
 
-            Rectangle2D bounds = Screen.getScreens().size() > 1
-                    ? Screen.getScreens().get(1).getBounds()
-                    : Screen.getPrimary().getBounds();
+                Rectangle2D bounds = Screen.getScreens().size() > 1
+                        ? Screen.getScreens().get(1).getBounds()
+                        : Screen.getPrimary().getBounds();
 
-            countdownStage.setX(bounds.getMinX());
-            countdownStage.setY(bounds.getMinY());
-            countdownStage.setWidth(bounds.getWidth());
-            countdownStage.setHeight(bounds.getHeight());
+                countdownStage.setX(bounds.getMinX());
+                countdownStage.setY(bounds.getMinY());
+                countdownStage.setWidth(bounds.getWidth());
+                countdownStage.setHeight(bounds.getHeight());
 
-            VBox vbox = new VBox(10);
-            vbox.setAlignment(Pos.CENTER);
-            countdownLabel = new Label();
-            countdownLabel.setFont(new Font(550));
-            vbox.getChildren().add(countdownLabel);
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/countdownapp/CountdownScreen.fxml"));
+                VBox root = loader.load();
+                CountdownScreenController screenController = loader.getController();
+                countdownLabel = screenController.getCountdownLabel();
 
-            countdownStage.setScene(new Scene(vbox));
-            countdownStage.show();
+                countdownStage.setScene(new Scene(root));
+                countdownStage.show();
 
-            increaseFontSizeButton.setVisible(true);
-            decreaseFontSizeButton.setVisible(true);
+                increaseFontSizeButton.setVisible(true);
+                decreaseFontSizeButton.setVisible(true);
 
-            new Thread(() -> {
-                long remaining = secondsRemaining;
+                new Thread(() -> {
+                    long remaining = secondsRemaining;
 
-                while (remaining >= 0 && countdownRunning) {
-                    long hours = remaining / 3600;
-                    long minutes = (remaining % 3600) / 60;
-                    long seconds = remaining % 60;
+                    while (remaining >= 0 && countdownRunning) {
+                        long hours = remaining / 3600;
+                        long minutes = (remaining % 3600) / 60;
+                        long seconds = remaining % 60;
 
-                    String formattedTime = (hours > 0 ? String.format("%02d:", hours) : "")
-                            + String.format("%02d:%02d", minutes, seconds);
+                        String formattedTime = (hours > 0 ? String.format("%02d:", hours) : "")
+                                + String.format("%02d:%02d", minutes, seconds);
 
-                    String textColor;
-                    if (remaining <= 15) {
-                        textColor = "#A53E1E";
-                    } else if (remaining <= 60) {
-                        textColor = "#D78C2D";
-                    } else {
-                        textColor = "rgba(74, 109, 167, 1)";
+                        String textColor;
+                        if (remaining <= 15) {
+                            textColor = "#A53E1E";
+                        } else if (remaining <= 60) {
+                            textColor = "#D78C2D";
+                        } else {
+                            textColor = "rgba(74, 109, 167, 1)";
+                        }
+
+                        Platform.runLater(() -> {
+                            countdownLabel.setText(formattedTime);
+                            countdownLabel.setStyle("-fx-text-fill: " + textColor + ";");
+                        });
+
+                        try {
+                            Thread.sleep(1000);
+                        } catch (InterruptedException e) {
+                            Thread.currentThread().interrupt();
+                        }
+
+                        remaining--;
                     }
 
                     Platform.runLater(() -> {
-                        countdownLabel.setText(formattedTime);
-                        countdownLabel.setStyle("-fx-text-fill: " + textColor + ";");
-                        countdownStage.getScene().getRoot()
-                                .setStyle("-fx-border-color: " + textColor + "; -fx-border-width: 12px;");
+                        countdownLabel.setText("00:00");
+                        stopCountdown();
                     });
-
-                    try {
-                        Thread.sleep(1000);
-                    } catch (InterruptedException e) {
-                        Thread.currentThread().interrupt();
-                    }
-
-                    remaining--;
-                }
-
-                Platform.runLater(() -> {
-                    countdownLabel.setText("00:00");
-                    stopCountdown();
-                });
-            }).start();
+                }).start();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         });
     }
 

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<VBox xmlns="http://javafx.com/javafx/17.0.6" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.countdownapp.CountdownScreenController"
+      alignment="CENTER" spacing="10" style="-fx-background-color: #000;">
+    <Label fx:id="countdownLabel" text="00:00"
+           style="-fx-font-size: 100px; -fx-text-fill: rgba(74, 109, 167, 1);" />
+</VBox>
