@@ -162,7 +162,7 @@ public class CountdownAppController {
                             if (countdownLabel2 != null) {
                                 countdownLabel2.setText(formattedTime);
                                 countdownLabel2.setStyle("-fx-text-fill: #5b3c88; -fx-font-weight: bold;");
-                                countdownLabel2.setFont(new Font(45));
+                                countdownLabel2.setFont(new Font(40));
                             }
                         });
                 
