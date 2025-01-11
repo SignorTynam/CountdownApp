@@ -18,9 +18,9 @@
   <center>
     <VBox alignment="CENTER" spacing="20" style="-fx-padding: 30;">
       <Label style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #5b3c88;" text="Seleziona una congregazione:" />
-      <ComboBox fx:id="congregationComboBox" prefWidth="300" style="-fx-font-size: 15px; -fx-background-color: #FFFFFF; -fx-border-color: #5b3c88; -fx-border-radius: 5px; -fx-padding: 5;" />
+      <ComboBox fx:id="congregationComboBox" prefHeight="27.0" prefWidth="300" style="-fx-font-size: 15px; -fx-background-color: #FFFFFF; -fx-border-color: #5b3c88; -fx-border-radius: 5px; -fx-padding: 5;" />
 
-      <Button fx:id="startButton" onAction="#toggleCountdown" prefHeight="45" prefWidth="300" style="-fx-font-size: 14px; -fx-background-color: #5b3c88; -fx-text-fill: white; -fx-border-radius: 5px;" text="Inizia il countdown" />
+      <Button fx:id="startButton" onAction="#toggleCountdown" prefHeight="24.0" prefWidth="300" style="-fx-font-size: 14px; -fx-background-color: #5b3c88; -fx-text-fill: white; -fx-border-radius: 5px;" text="Inizia il countdown" />
 
       <Label fx:id="countdownLabel2" style="-fx-font-size: 40px; -fx-font-weight: bold; -fx-text-fill: #5b3c88;" text="00:00" />
 

@@ -52,7 +52,7 @@ public class CountdownAppController {
 
         congregations.add(new Congregation("Cesena Stadio",
                 new DayOfWeek[]{DayOfWeek.TUESDAY, DayOfWeek.SATURDAY},
-                new LocalTime[]{LocalTime.of(20, 15), LocalTime.of(17, 30)}));
+                new LocalTime[]{LocalTime.of(20, 15), LocalTime.of(20, 30)}));
 
         congregations.add(new Congregation("Cesena Borgo Paglia",
                 new DayOfWeek[]{DayOfWeek.WEDNESDAY, DayOfWeek.SUNDAY},
@@ -88,7 +88,7 @@ public class CountdownAppController {
                 LocalDate meetingDate = today.with(meetingDay);
                 if (meetingDay.getValue() < today.getDayOfWeek().getValue() || 
                     (meetingDay == today.getDayOfWeek() && meetingTime.isBefore(now))) {
-                    meetingDate = meetingDate.plusWeeks(1); // Sposta alla settimana successiva
+                    meetingDate = meetingDate.plusWeeks(1);
                 }
 
                 if (nextMeetingDate == null || 
