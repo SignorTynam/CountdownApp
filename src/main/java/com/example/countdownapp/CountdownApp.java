@@ -42,7 +42,7 @@ public class CountdownApp extends Application {
         System.out.println("Application is closing...");
     }
 
-    public void showDialog(String title, String message, AlertType alertType) {
+    public void showDialog(String title, String message, @SuppressWarnings("exports") AlertType alertType) {
         javafx.application.Platform.runLater(() -> {
             javafx.scene.control.Alert alert = new javafx.scene.control.Alert(alertType);
             alert.setTitle(title);
