@@ -110,7 +110,7 @@ public class CountdownAppController {
         Platform.runLater(() -> {
             if (countdownStage == null) {
                 countdownStage = new Stage(StageStyle.UNDECORATED);
-                countdownStage.setOnCloseRequest(event -> stopCountdown());
+                countdownStage.setOnCloseRequest(_ -> stopCountdown());
             }
 
             startButton.setText("Chiudi il countdown");

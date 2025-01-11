@@ -11,6 +11,8 @@ module com.example.countdownapp {
     requires eu.hansolo.tilesfx;
     requires com.almasb.fxgl.all;
 
+    requires transitive javafx.graphics;
+
     opens com.example.countdownapp to javafx.fxml;
     exports com.example.countdownapp;
 }
