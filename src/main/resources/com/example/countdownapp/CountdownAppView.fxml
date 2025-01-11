@@ -2,33 +2,43 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.geometry.Insets?>
+<?import javafx.scene.text.*?>
 
-<BorderPane xmlns="http://javafx.com/javafx/17.0.6" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.countdownapp.CountdownAppController">
+<BorderPane xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.countdownapp.CountdownAppController">
+  <!-- Header Section -->
+  <top>
+    <HBox alignment="CENTER" minHeight="40.0" prefHeight="40.0" prefWidth="362.0" style="-fx-background-color: #5b3c88; -fx-padding: 15;">
+      <Label style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #ffffff;" text="Timer della congregazione">
+            <font>
+               <Font name="System Bold" size="10.0" />
+            </font></Label>
+    </HBox>
+  </top>
+
+  <!-- Main Content Section -->
   <center>
-    <VBox alignment="CENTER">
-      <!-- Title Label -->
-      <Label style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #333;" text="Scegli la congregazione:" />
+    <VBox alignment="CENTER" spacing="20" style="-fx-padding: 30;">
+      <!-- ComboBox Section -->
+      <Label style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #5b3c88;" text="Seleziona una congregazione:" />
+      <ComboBox fx:id="congregationComboBox" prefWidth="300" style="-fx-font-size: 16px; -fx-background-color: #FFFFFF; -fx-border-color: #5b3c88; -fx-border-radius: 5px; -fx-padding: 5;" />
 
-      <!-- ComboBox with padding and a light background -->
-      <ComboBox fx:id="congregationComboBox" prefWidth="250" style="-fx-font-size: 14px; -fx-background-color: #f9f9f9; -fx-border-color: #ddd; -fx-border-radius: 10px;" />
+      <!-- Start Button -->
+      <Button fx:id="startButton" onAction="#toggleCountdown" prefHeight="45" prefWidth="300" style="-fx-font-size: 16px; -fx-background-color: #5b3c88; -fx-text-fill: white; -fx-border-radius: 5px;" text="Inizia il countdown" />
 
-      <!-- Start Button with modern style -->
-      <Button fx:id="startButton" minHeight="35.0" minWidth="150.0" onAction="#toggleCountdown" prefHeight="35.0" prefWidth="250.0"
-              style="-fx-font-size: 16px; -fx-background-color: #4CAF50; -fx-text-fill: white; -fx-border-radius: 10px;" text="Inizia il countdown" />
+      <!-- Countdown Timer Display -->
+      <Label fx:id="countdownLabel" style="-fx-font-size: 48px; -fx-font-weight: bold; -fx-text-fill: #5b3c88;" text="00:00" />
 
-      <!-- Countdown Timer -->
-      <Label fx:id="countdownLabel" style="-fx-font-size: 40px; -fx-font-weight: bold; -fx-text-fill: #333; -fx-padding: 15 20;" text="00:00" />
-
-      <!-- Font Size Control Buttons (hidden initially) -->
-      <HBox alignment="CENTER">
-        <Button fx:id="increaseFontSizeButton" onAction="#increaseFontSize"
-                style="-fx-font-size: 14px; -fx-background-color: #2196F3; -fx-text-fill: white; -fx-border-radius: 5px;"
-                text="Aumenta dimensione font" visible="false"/>
-        <Button fx:id="decreaseFontSizeButton" onAction="#decreaseFontSize"
-                style="-fx-font-size: 14px; -fx-background-color: #f44336; -fx-text-fill: white; -fx-border-radius: 5px;"
-                text="Diminuisci dimensione font" visible="false"/>
+      <!-- Font Size Buttons -->
+      <HBox alignment="CENTER" spacing="15">
+        <Button fx:id="increaseFontSizeButton" onAction="#increaseFontSize" style="-fx-font-size: 14px; -fx-background-color: #5b3c88; -fx-text-fill: white; -fx-border-radius: 5px;" text="Aumenta Font" visible="false" />
+        <Button fx:id="decreaseFontSizeButton" onAction="#decreaseFontSize" style="-fx-font-size: 14px; -fx-background-color: #5b3c88; -fx-text-fill: white; -fx-border-radius: 5px;" text="Diminuisci Font" visible="false" />
       </HBox>
     </VBox>
   </center>
+
+  <bottom>
+    <HBox alignment="CENTER" style="-fx-background-color: #f0f0f0; -fx-padding: 10;">
+      <Label style="-fx-font-size: 14px; -fx-text-fill: #5b3c88;" text="Emilia Romagna 6" />
+    </HBox>
+  </bottom>
 </BorderPane>

@@ -10,6 +10,10 @@ import java.io.IOException;
 
 public class CountdownApp extends Application {
 
+    public static void main(String[] args) {
+        launch(args);
+    }
+
     @Override
     public void start(Stage primaryStage) throws Exception {
         try {
@@ -30,10 +34,6 @@ public class CountdownApp extends Application {
     @Override
     public void stop() {
         System.out.println("Application is closing...");
-    }
-
-    public static void main(String[] args) {
-        launch(args);
     }
 
     private void showErrorDialog(String title, String message) {
