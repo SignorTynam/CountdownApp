@@ -113,54 +113,57 @@ public class CountdownAppController {
                     countdownStage = new Stage(StageStyle.UNDECORATED);
                     countdownStage.setOnCloseRequest(_ -> stopCountdown());
                 }
-
+        
                 startButton.setText("Chiudi il countdown");
-
+        
                 Rectangle2D bounds = Screen.getScreens().size() > 1
                         ? Screen.getScreens().get(1).getBounds()
                         : Screen.getPrimary().getBounds();
-
+        
                 countdownStage.setX(bounds.getMinX());
                 countdownStage.setY(bounds.getMinY());
                 countdownStage.setWidth(bounds.getWidth());
                 countdownStage.setHeight(bounds.getHeight());
-
+        
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/countdownapp/CountdownScreen.fxml"));
                 VBox root = loader.load();
                 CountdownScreenController screenController = loader.getController();
+        
+                // Imposta il nome della congregazione e il timer
+                screenController.setCongregationName(selectedCongregationName);
                 countdownLabel = screenController.getCountdownLabel();
-
+        
                 countdownStage.setScene(new Scene(root));
                 countdownStage.show();
-
+        
                 increaseFontSizeButton.setVisible(true);
                 decreaseFontSizeButton.setVisible(true);
-
+        
                 new Thread(() -> {
                     long remaining = secondsRemaining;
-
+        
                     while (remaining >= 0 && countdownRunning) {
                         long hours = remaining / 3600;
                         long minutes = (remaining % 3600) / 60;
                         long seconds = remaining % 60;
-
+        
                         String formattedTime = (hours > 0 ? String.format("%02d:", hours) : "")
                                 + String.format("%02d:%02d", minutes, seconds);
-
+        
                         Platform.runLater(() -> {
                             countdownLabel.setText(formattedTime);
                             countdownLabel.setStyle("-fx-text-fill: white;");
                         });
-
+        
                         try {
                             Thread.sleep(1000);
                         } catch (InterruptedException e) {
                             Thread.currentThread().interrupt();
                         }
-
+        
                         remaining--;
                     }
-
+        
                     Platform.runLater(() -> {
                         countdownLabel.setText("00:00");
                         stopCountdown();
@@ -169,7 +172,7 @@ public class CountdownAppController {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-        });
+        });        
     }
 
     private void stopCountdown() {
