@@ -5,7 +5,6 @@
 <?import javafx.scene.text.*?>
 
 <BorderPane xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.countdownapp.CountdownAppController">
-  <!-- Header Section -->
   <top>
     <HBox alignment="CENTER" minHeight="40.0" prefHeight="40.0" prefWidth="362.0" style="-fx-background-color: #5b3c88; -fx-padding: 15;">
       <Label style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #ffffff;" text="Timer della congregazione">
@@ -15,20 +14,15 @@
     </HBox>
   </top>
 
-  <!-- Main Content Section -->
   <center>
     <VBox alignment="CENTER" spacing="20" style="-fx-padding: 30;">
-      <!-- ComboBox Section -->
       <Label style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #5b3c88;" text="Seleziona una congregazione:" />
       <ComboBox fx:id="congregationComboBox" prefWidth="300" style="-fx-font-size: 16px; -fx-background-color: #FFFFFF; -fx-border-color: #5b3c88; -fx-border-radius: 5px; -fx-padding: 5;" />
 
-      <!-- Start Button -->
       <Button fx:id="startButton" onAction="#toggleCountdown" prefHeight="45" prefWidth="300" style="-fx-font-size: 16px; -fx-background-color: #5b3c88; -fx-text-fill: white; -fx-border-radius: 5px;" text="Inizia il countdown" />
 
-      <!-- Countdown Timer Display -->
       <Label fx:id="countdownLabel" style="-fx-font-size: 48px; -fx-font-weight: bold; -fx-text-fill: #5b3c88;" text="00:00" />
 
-      <!-- Font Size Buttons -->
       <HBox alignment="CENTER" spacing="15">
         <Button fx:id="increaseFontSizeButton" onAction="#increaseFontSize" style="-fx-font-size: 14px; -fx-background-color: #5b3c88; -fx-text-fill: white; -fx-border-radius: 5px;" text="Aumenta Font" visible="false" />
         <Button fx:id="decreaseFontSizeButton" onAction="#decreaseFontSize" style="-fx-font-size: 14px; -fx-background-color: #5b3c88; -fx-text-fill: white; -fx-border-radius: 5px;" text="Diminuisci Font" visible="false" />
@@ -37,8 +31,11 @@
   </center>
 
   <bottom>
-    <HBox alignment="CENTER" style="-fx-background-color: #f0f0f0; -fx-padding: 10;">
-      <Label style="-fx-font-size: 14px; -fx-text-fill: #5b3c88;" text="Emilia Romagna 6" />
+    <HBox alignment="CENTER" style="-fx-background-color: #5b3c88; -fx-padding: 10;">
+      <Label style="-fx-font-size: 14px; -fx-text-fill: #f0f0f0; -fx-font-weight: bold" text="Emilia Romagna 6">
+            <font>
+               <Font name="System Bold" size="13.0" />
+            </font></Label>
     </HBox>
   </bottom>
 </BorderPane>

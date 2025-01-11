@@ -153,6 +153,7 @@ public class CountdownAppController {
                         Platform.runLater(() -> {
                             countdownLabel.setText(formattedTime);
                             countdownLabel.setStyle("-fx-text-fill: white;");
+                            countdownLabel.setFont(new Font(350));
                         });
         
                         try {
