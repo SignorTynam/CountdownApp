@@ -32,11 +32,14 @@ public class CountdownAppController {
     @FXML
     private Button decreaseFontSizeButton;
 
-    private boolean countdownRunning = false;
+    private volatile boolean countdownRunning = false;
     private Stage countdownStage;
     private final List<Congregation> congregations = new ArrayList<>();
     @FXML
     private Label countdownLabel;
+
+    private static final double MAX_FONT_SIZE = 700;
+    private static final double MIN_FONT_SIZE = 10;
 
     @FXML
     public void initialize() {
@@ -63,20 +66,13 @@ public class CountdownAppController {
         for (Congregation congregation : congregations) {
             congregationComboBox.getItems().add(congregation.getName());
         }
-        congregationComboBox.setValue(congregations.getFirst().getName());
+        congregationComboBox.setValue(congregations.get(0).getName());
     }
 
     @FXML
     private void toggleCountdown() {
         if (countdownRunning) {
-            countdownRunning = false;
-            startButton.setText("Inizia il countdown");
-            if (countdownStage != null) {
-                countdownStage.close();
-            }
-            increaseFontSizeButton.setVisible(false);
-            decreaseFontSizeButton.setVisible(false);
-            congregationComboBox.setDisable(false);
+            stopCountdown();
             return;
         }
 
@@ -99,9 +95,9 @@ public class CountdownAppController {
             return;
         }
 
-        LocalTime targetTime = selectedCongregation.getMeetingTime(currentDayOfWeek);
+        LocalTime targetTime = selectedCongregation.getNextMeetingTime(currentDayOfWeek, LocalTime.now());
 
-        if (targetTime == null || LocalTime.now().isAfter(targetTime)) {
+        if (targetTime == null) {
             displayWarningMessage("Adunanza già passata", "L'orario della prossima adunanza è già passato.");
             congregationComboBox.setDisable(false);
             return;
@@ -114,12 +110,7 @@ public class CountdownAppController {
         Platform.runLater(() -> {
             if (countdownStage == null) {
                 countdownStage = new Stage(StageStyle.UNDECORATED);
-                countdownStage.setOnCloseRequest(event -> {
-                    countdownRunning = false;
-                    startButton.setText("Inizia il countdown");
-                    increaseFontSizeButton.setVisible(false);
-                    decreaseFontSizeButton.setVisible(false);
-                });
+                countdownStage.setOnCloseRequest(event -> stopCountdown());
             }
 
             startButton.setText("Chiudi il countdown");
@@ -142,11 +133,9 @@ public class CountdownAppController {
             countdownStage.setScene(new Scene(vbox));
             countdownStage.show();
 
-            // I pulsanti per cambiare la dimensione del font devono essere visibili ora
             increaseFontSizeButton.setVisible(true);
             decreaseFontSizeButton.setVisible(true);
 
-            // Il thread del countdown
             new Thread(() -> {
                 long remaining = secondsRemaining;
 
@@ -177,41 +166,44 @@ public class CountdownAppController {
                     try {
                         Thread.sleep(1000);
                     } catch (InterruptedException e) {
-                        e.printStackTrace();
+                        Thread.currentThread().interrupt();
                     }
 
                     remaining--;
                 }
 
-                Platform.runLater(() -> countdownLabel.setText("00:00"));
-                try {
-                    Thread.sleep(5000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-
                 Platform.runLater(() -> {
-                    countdownStage.close();
-                    startButton.setText("Inizia il countdown");
+                    countdownLabel.setText("00:00");
+                    stopCountdown();
                 });
             }).start();
         });
     }
 
-    private Congregation getCongregationByName(String name) {
-        for (Congregation congregation : congregations) {
-            if (congregation.getName().equals(name)) {
-                return congregation;
-            }
+    private void stopCountdown() {
+        countdownRunning = false;
+        if (countdownStage != null) {
+            countdownStage.close();
         }
-        return null;
+        startButton.setText("Inizia il countdown");
+        increaseFontSizeButton.setVisible(false);
+        decreaseFontSizeButton.setVisible(false);
+        congregationComboBox.setDisable(false);
+    }
+
+    private Congregation getCongregationByName(String name) {
+        return congregations.stream()
+                .filter(congregation -> congregation.getName().equals(name))
+                .findFirst()
+                .orElse(null);
     }
 
     @FXML
     private void increaseFontSize() {
         if (countdownLabel != null) {
             Font currentFont = countdownLabel.getFont();
-            countdownLabel.setFont(new Font(currentFont.getSize() + 10));
+            double newSize = Math.min(currentFont.getSize() + 10, MAX_FONT_SIZE);
+            countdownLabel.setFont(new Font(newSize));
         }
     }
 
@@ -219,7 +211,8 @@ public class CountdownAppController {
     private void decreaseFontSize() {
         if (countdownLabel != null) {
             Font currentFont = countdownLabel.getFont();
-            countdownLabel.setFont(new Font(Math.max(currentFont.getSize() - 10, 10)));
+            double newSize = Math.max(currentFont.getSize() - 10, MIN_FONT_SIZE);
+            countdownLabel.setFont(new Font(newSize));
         }
     }
 

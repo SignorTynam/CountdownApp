@@ -45,6 +45,15 @@ public class Congregation {
                 return meetingTimes[i];
             }
         }
-        return null; // Se non c'è un incontro per oggi
+        return null;
+    }
+
+    public LocalTime getNextMeetingTime(DayOfWeek currentDayOfWeek, LocalTime currentTime) {
+        for (int i = 0; i < meetingDays.length; i++) {
+            if (meetingDays[i] == currentDayOfWeek && meetingTimes[i].isAfter(currentTime)) {
+                return meetingTimes[i];
+            }
+        }
+        return null;
     }
 }
