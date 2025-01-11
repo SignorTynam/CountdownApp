@@ -37,6 +37,8 @@ public class CountdownAppController {
     private final List<Congregation> congregations = new ArrayList<>();
     @FXML
     private Label countdownLabel;
+    @FXML
+    private Label countdownLabel2;
 
     private static final double MAX_FONT_SIZE = 700;
     private static final double MIN_FONT_SIZE = 10;
@@ -129,8 +131,7 @@ public class CountdownAppController {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/countdownapp/CountdownScreen.fxml"));
                 VBox root = loader.load();
                 CountdownScreenController screenController = loader.getController();
-        
-                // Imposta il nome della congregazione e il timer
+
                 screenController.setCongregationName(selectedCongregationName);
                 countdownLabel = screenController.getCountdownLabel();
         
@@ -152,9 +153,17 @@ public class CountdownAppController {
                                 + String.format("%02d:%02d", minutes, seconds);
                 
                         Platform.runLater(() -> {
-                            countdownLabel.setText(formattedTime);
-                            countdownLabel.setStyle("-fx-text-fill: white;");
-                            countdownLabel.setFont(new Font(currentFontSize)); // Use the updated font size
+                            if (countdownLabel != null) {
+                                countdownLabel.setText(formattedTime);
+                                countdownLabel.setStyle("-fx-text-fill: white;");
+                                countdownLabel.setFont(new Font(currentFontSize));
+                            }
+                
+                            if (countdownLabel2 != null) {
+                                countdownLabel2.setText(formattedTime);
+                                countdownLabel2.setStyle("-fx-text-fill: #5b3c88; -fx-font-weight: bold;");
+                                countdownLabel2.setFont(new Font(45));
+                            }
                         });
                 
                         try {
@@ -167,10 +176,11 @@ public class CountdownAppController {
                     }
                 
                     Platform.runLater(() -> {
-                        countdownLabel.setText("00:00");
+                        if (countdownLabel != null) countdownLabel.setText("00:00");
+                        if (countdownLabel2 != null) countdownLabel2.setText("00:00");
                         stopCountdown();
                     });
-                }).start();                
+                }).start();                                
             } catch (Exception e) {
                 e.printStackTrace();
             }

@@ -22,7 +22,7 @@
 
       <Button fx:id="startButton" onAction="#toggleCountdown" prefHeight="45" prefWidth="300" style="-fx-font-size: 16px; -fx-background-color: #5b3c88; -fx-text-fill: white; -fx-border-radius: 5px;" text="Inizia il countdown" />
 
-      <Label fx:id="countdownLabel" style="-fx-font-size: 48px; -fx-font-weight: bold; -fx-text-fill: #5b3c88;" text="00:00" />
+      <Label fx:id="countdownLabel2" style="-fx-font-size: 45px; -fx-font-weight: bold; -fx-text-fill: #5b3c88;" text="00:00" />
 
       <HBox alignment="CENTER" spacing="15">
         <Button fx:id="increaseFontSizeButton" onAction="#increaseFontSize" style="-fx-font-size: 14px; -fx-background-color: #5b3c88; -fx-text-fill: white; -fx-border-radius: 5px;" text="Aumenta Font" visible="false" />
