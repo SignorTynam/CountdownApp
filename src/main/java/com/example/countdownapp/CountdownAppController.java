@@ -46,7 +46,6 @@ public class CountdownAppController {
 
     @FXML
     public void initialize() {
-        // Aggiungi le congregazioni
         congregations.add(new Congregation("Cesena Torre del Moro",
                 new DayOfWeek[]{DayOfWeek.WEDNESDAY, DayOfWeek.SUNDAY},
                 new LocalTime[]{LocalTime.of(20, 15), LocalTime.of(10, 0)}));
