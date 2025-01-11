@@ -46,6 +46,7 @@ public class CountdownAppController {
 
     @FXML
     public void initialize() {
+        // Aggiungi le congregazioni
         congregations.add(new Congregation("Cesena Torre del Moro",
                 new DayOfWeek[]{DayOfWeek.WEDNESDAY, DayOfWeek.SUNDAY},
                 new LocalTime[]{LocalTime.of(20, 15), LocalTime.of(10, 0)}));
@@ -66,10 +67,71 @@ public class CountdownAppController {
                 new DayOfWeek[]{DayOfWeek.THURSDAY, DayOfWeek.SUNDAY},
                 new LocalTime[]{LocalTime.of(20, 15), LocalTime.of(10, 0)}));
 
+        // Popola il ComboBox con i nomi delle congregazioni
         for (Congregation congregation : congregations) {
             congregationComboBox.getItems().add(congregation.getName());
         }
-        congregationComboBox.setValue(congregations.get(0).getName());
+
+        // Trova e seleziona automaticamente la prossima adunanza
+        findAndSelectNextMeeting();
+    }
+
+    /**
+     * Trova la prossima adunanza tra tutte le congregazioni e seleziona quella nel ComboBox.
+     */
+    private void findAndSelectNextMeeting() {
+        LocalDate today = LocalDate.now();
+        LocalTime now = LocalTime.now();
+        Congregation nextCongregation = null;
+        LocalDate nextMeetingDate = null;
+        LocalTime nextMeetingTime = null;
+
+        // Cerca la prossima adunanza tra tutte le congregazioni
+        for (Congregation congregation : congregations) {
+            for (int i = 0; i < congregation.getMeetingDays().length; i++) {
+                DayOfWeek meetingDay = congregation.getMeetingDays()[i];
+                LocalTime meetingTime = congregation.getMeetingTimes()[i];
+
+                // Calcola la data dell'adunanza
+                LocalDate meetingDate = today.with(meetingDay);
+                if (meetingDay.getValue() < today.getDayOfWeek().getValue() || 
+                    (meetingDay == today.getDayOfWeek() && meetingTime.isBefore(now))) {
+                    meetingDate = meetingDate.plusWeeks(1); // Sposta alla settimana successiva
+                }
+
+                // Aggiorna se questa adunanza è prima della prossima trovata
+                if (nextMeetingDate == null || 
+                    meetingDate.isBefore(nextMeetingDate) || 
+                    (meetingDate.isEqual(nextMeetingDate) && meetingTime.isBefore(nextMeetingTime))) {
+                    nextMeetingDate = meetingDate;
+                    nextMeetingTime = meetingTime;
+                    nextCongregation = congregation;
+                }
+            }
+        }
+
+        // Seleziona la congregazione e mostra un messaggio se necessario
+        if (nextCongregation != null) {
+            congregationComboBox.setValue(nextCongregation.getName());
+            displayInfoMessage("Prossima adunanza", "La prossima adunanza è della congregazione: " +
+                    nextCongregation.getName() + " il " + nextMeetingDate.getDayOfWeek() +
+                    " alle " + nextMeetingTime);
+        } else {
+            displayWarningMessage("Nessuna adunanza trovata", "Non ci sono adunanze programmate.");
+        }
+    }
+
+    /**
+     * Mostra un messaggio di informazione all'utente.
+     */
+    private void displayInfoMessage(String title, String message) {
+        Platform.runLater(() -> {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle(title);
+            alert.setHeaderText(null);
+            alert.setContentText(message);
+            alert.showAndWait();
+        });
     }
 
     @FXML
