@@ -42,11 +42,11 @@ public class CountdownAppController {
     public void initialize() {
         congregations.add(new Congregation("Cesena Torre del Moro",
                 new DayOfWeek[]{DayOfWeek.WEDNESDAY, DayOfWeek.SUNDAY},
-                new LocalTime[]{LocalTime.of(20, 15), LocalTime.of(17, 0)}));
+                new LocalTime[]{LocalTime.of(20, 15), LocalTime.of(10, 0)}));
 
         congregations.add(new Congregation("Cesena Stadio",
-                new DayOfWeek[]{DayOfWeek.TUESDAY, DayOfWeek.SUNDAY},
-                new LocalTime[]{LocalTime.of(20, 15), LocalTime.of(10, 0)}));
+                new DayOfWeek[]{DayOfWeek.TUESDAY, DayOfWeek.SATURDAY},
+                new LocalTime[]{LocalTime.of(20, 15), LocalTime.of(17, 30)}));
 
         congregations.add(new Congregation("Cesena Borgo Paglia",
                 new DayOfWeek[]{DayOfWeek.WEDNESDAY, DayOfWeek.SUNDAY},
@@ -54,13 +54,12 @@ public class CountdownAppController {
 
         congregations.add(new Congregation("Cesena Cervese",
                 new DayOfWeek[]{DayOfWeek.THURSDAY, DayOfWeek.SUNDAY},
-                new LocalTime[]{LocalTime.of(20, 15), LocalTime.of(10, 0)}));
-
-        congregations.add(new Congregation("Cesena Ippodromo",
-                new DayOfWeek[]{DayOfWeek.THURSDAY, DayOfWeek.SATURDAY},
                 new LocalTime[]{LocalTime.of(20, 15), LocalTime.of(17, 0)}));
 
-        // Popola la ComboBox
+        congregations.add(new Congregation("Cesena Ippodromo",
+                new DayOfWeek[]{DayOfWeek.THURSDAY, DayOfWeek.SUNDAY},
+                new LocalTime[]{LocalTime.of(20, 15), LocalTime.of(10, 0)}));
+
         for (Congregation congregation : congregations) {
             congregationComboBox.getItems().add(congregation.getName());
         }

@@ -19,7 +19,7 @@ public class CountdownApp extends Application {
             Scene scene = new Scene(root);
             primaryStage.setTitle("Countdown App");
             primaryStage.setScene(scene);
-            primaryStage.setResizable(false); // Optionally disable resizing
+            primaryStage.setResizable(false);
             primaryStage.show();
         } catch (IOException e) {
             e.printStackTrace();
