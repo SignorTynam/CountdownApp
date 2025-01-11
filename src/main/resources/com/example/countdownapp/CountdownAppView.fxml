@@ -9,8 +9,9 @@
     <HBox alignment="CENTER" minHeight="40.0" prefHeight="40.0" prefWidth="362.0" style="-fx-background-color: #5b3c88; -fx-padding: 15;">
       <Label style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #ffffff;" text="Timer della congregazione">
             <font>
-               <Font name="System Bold" size="10.0" />
-            </font></Label>
+               <Font name="Arial" size="10.0" />
+            </font>
+      </Label>
     </HBox>
   </top>
 
@@ -34,8 +35,9 @@
     <HBox alignment="CENTER" style="-fx-background-color: #5b3c88; -fx-padding: 10;">
       <Label style="-fx-font-size: 14px; -fx-text-fill: #f0f0f0; -fx-font-weight: bold" text="Emilia Romagna 6">
             <font>
-               <Font name="System Bold" size="13.0" />
-            </font></Label>
+               <Font name="Arial" size="13.0" />
+            </font>
+      </Label>
     </HBox>
   </bottom>
 </BorderPane>

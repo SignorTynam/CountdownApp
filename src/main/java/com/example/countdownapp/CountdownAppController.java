@@ -98,7 +98,7 @@ public class CountdownAppController {
         LocalTime targetTime = selectedCongregation.getNextMeetingTime(currentDayOfWeek, LocalTime.now());
 
         if (targetTime == null) {
-            displayWarningMessage("Adunanza già passata", "L'orario della prossima adunanza è già passato.");
+            displayWarningMessage("Adunanza già passata", "L'orario dell'adunanza è già passato.");
             congregationComboBox.setDisable(false);
             return;
         }
