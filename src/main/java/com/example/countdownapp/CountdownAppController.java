@@ -52,7 +52,7 @@ public class CountdownAppController {
 
         congregations.add(new Congregation("Cesena Stadio",
                 new DayOfWeek[]{DayOfWeek.TUESDAY, DayOfWeek.SATURDAY},
-                new LocalTime[]{LocalTime.of(20, 15), LocalTime.of(20, 30)}));
+                new LocalTime[]{LocalTime.of(20, 15), LocalTime.of(17, 30)}));
 
         congregations.add(new Congregation("Cesena Borgo Paglia",
                 new DayOfWeek[]{DayOfWeek.WEDNESDAY, DayOfWeek.SUNDAY},
