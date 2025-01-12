@@ -66,6 +66,10 @@ public class CountdownAppController {
                 new DayOfWeek[]{DayOfWeek.THURSDAY, DayOfWeek.SUNDAY},
                 new LocalTime[]{LocalTime.of(20, 15), LocalTime.of(10, 0)}));
 
+        congregations.add(new Congregation("Cesena Centro", 
+                new DayOfWeek[]{DayOfWeek.THURSDAY, DayOfWeek.SUNDAY},
+                new LocalTime[]{LocalTime.of(20, 15), LocalTime.of(18, 12)}));
+
         for (Congregation congregation : congregations) {
             congregationComboBox.getItems().add(congregation.getName());
         }
@@ -103,9 +107,6 @@ public class CountdownAppController {
 
         if (nextCongregation != null) {
             congregationComboBox.setValue(nextCongregation.getName());
-            app.showDialog("Prossima adunanza", "La prossima adunanza è della congregazione: " +
-                    nextCongregation.getName() + " il " + nextMeetingDate.getDayOfWeek() +
-                    " alle " + nextMeetingTime, AlertType.INFORMATION);
         } else {
             app.showDialog("Nessuna adunanza trovata", "Non ci sono adunanze programmate.", AlertType.ERROR);
         }
