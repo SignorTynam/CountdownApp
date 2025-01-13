@@ -7,19 +7,22 @@
 <VBox xmlns="http://javafx.com/javafx/17.0.6" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.countdownapp.CountdownScreenController"
       alignment="CENTER" spacing="30" style="-fx-background-color: #000; -fx-padding: 20;">
 
-    <Label fx:id="congregationLabel"
-           style="-fx-font-size: 80px; -fx-font-weight: bold; -fx-text-fill: white;">
-        <font>
-            <Font name="Arial" size="60.0" />
-        </font>
-    </Label>
+    <!-- VBox i brendshëm për dy Label-at e parë me spacing më të vogël -->
+    <VBox alignment="CENTER" spacing="10"> <!-- Ulni spacing në 10 -->
+        <Label text="“Date a Geova la gloria"
+               style="-fx-font-size: 60px; -fx-font-weight: bold; -fx-text-fill: white; -fx-wrap-text: true; -fx-text-alignment: center;">
+            <font>
+                <Font name="Arial" size="60.0" />
+            </font>
+        </Label>
 
-    <Label text="“Date a Geova la gloria che spetta al suo nome”"
-           style="-fx-font-size: 60px; -fx-font-weight: bold; -fx-text-fill: white; -fx-wrap-text: true; -fx-text-alignment: center;">
-        <font>
-            <Font name="Arial" size="60.0" />
-        </font>
-    </Label>
+        <Label text="che spetta al suo nome”"
+               style="-fx-font-size: 60px; -fx-font-weight: bold; -fx-text-fill: white; -fx-wrap-text: true; -fx-text-alignment: center;">
+            <font>
+                <Font name="Arial" size="60.0" />
+            </font>
+        </Label>
+    </VBox>
 
     <Label text="(Salmo 96:8)"
            style="-fx-font-size: 60px; -fx-font-weight: bold; -fx-text-fill: white; -fx-wrap-text: true; -fx-text-alignment: center;">
@@ -27,7 +30,7 @@
             <Font name="Arial" size="60.0" />
         </font>
     </Label>
-    
+
     <Label fx:id="countdownLabel"
            style="-fx-font-weight: bold; -fx-text-fill: white;">
         <font>

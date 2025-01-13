@@ -67,8 +67,8 @@ public class CountdownAppController {
                 new LocalTime[]{LocalTime.of(20, 15), LocalTime.of(10, 0)}));
 
         congregations.add(new Congregation("Cesena Centro", 
-                new DayOfWeek[]{DayOfWeek.THURSDAY, DayOfWeek.SUNDAY},
-                new LocalTime[]{LocalTime.of(20, 15), LocalTime.of(18, 12)}));
+                new DayOfWeek[]{DayOfWeek.MONDAY, DayOfWeek.SUNDAY},
+                new LocalTime[]{LocalTime.of(21, 30), LocalTime.of(18, 12)}));
 
         for (Congregation congregation : congregations) {
             congregationComboBox.getItems().add(congregation.getName());
@@ -172,7 +172,6 @@ public class CountdownAppController {
                 VBox root = loader.load();
                 CountdownScreenController screenController = loader.getController();
 
-                screenController.setCongregationName(selectedCongregationName);
                 countdownLabel = screenController.getCountdownLabel();
         
                 countdownStage.setScene(new Scene(root));
