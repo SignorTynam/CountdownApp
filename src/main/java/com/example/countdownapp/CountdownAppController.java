@@ -65,11 +65,7 @@ public class CountdownAppController {
         congregations.add(new Congregation("Cesena Ippodromo",
                 new DayOfWeek[]{DayOfWeek.THURSDAY, DayOfWeek.SUNDAY},
                 new LocalTime[]{LocalTime.of(20, 15), LocalTime.of(10, 0)}));
-
-        congregations.add(new Congregation("Cesena Centro", 
-                new DayOfWeek[]{DayOfWeek.MONDAY, DayOfWeek.SUNDAY},
-                new LocalTime[]{LocalTime.of(21, 30), LocalTime.of(18, 12)}));
-
+                
         for (Congregation congregation : congregations) {
             congregationComboBox.getItems().add(congregation.getName());
         }
