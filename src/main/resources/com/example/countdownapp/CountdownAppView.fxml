@@ -23,7 +23,8 @@
       <Button fx:id="startButton" onAction="#toggleCountdown" prefHeight="24.0" prefWidth="300" style="-fx-font-size: 14px; -fx-background-color: #5b3c88; -fx-text-fill: white; -fx-border-radius: 5px;" text="Inizia il countdown">
             <font>
                <Font name="System Bold" size="12.0" />
-            </font></Button>
+            </font>
+      </Button>
 
       <Label fx:id="countdownLabel2" style="-fx-font-size: 40px; -fx-font-weight: bold; -fx-text-fill: #5b3c88;" text="00:00" />
 
