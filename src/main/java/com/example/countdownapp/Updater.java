@@ -3,11 +3,12 @@ package com.example.countdownapp;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
+import java.net.URI;
 import java.net.URL;
 
 public class Updater {
     private static final String VERSION_FILE = "/version.txt"; // Vendosni versionin lokal
-    private static final String GITHUB_API_URL = "https://api.github.com/repos/SignorTynam/CountdownApp/releases/latest";
+    private static final String GITHUB_API_URL = "https://github.com/SignorTynam/CountdownApp/releases/tag/v.2.0";
 
     public static boolean checkForUpdates() {
         try {
@@ -35,7 +36,7 @@ public class Updater {
     }
 
     private static String getLatestVersion() throws Exception {
-        URL url = new URL(GITHUB_API_URL);
+        URL url = new URI(GITHUB_API_URL).toURL();
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         connection.setRequestMethod("GET");
         connection.setRequestProperty("Accept", "application/vnd.github.v3+json");
