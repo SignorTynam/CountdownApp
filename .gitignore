@@ -41,5 +41,5 @@ build/
 ### Mac OS ###
 .DS_Store
 
-src/main/resources/
+src/main/resources/META-INF/
 out/
